@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {DataService} from './data.service';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'phone-bill';
+  title = 'Phone Bill';
+  phone_bill: string;
+  result: 0;
+
+  constructor(private data: DataService) {
+    this.phone_bill = data.getData().replace(/\n/g, '<br>');
+  }
 }
