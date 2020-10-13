@@ -9,7 +9,7 @@ import {DataService} from './data.service';
 export class AppComponent {
   title = 'Phone Bill';
   phone_bill: string;
-  result: 0;
+  result = 0;
   calls_list = [];
   call_cost_list: CallCost[] = [];
   call_total_time_list: Call[] = []; // Total time for each number
@@ -55,35 +55,50 @@ export class AppComponent {
     this.call_cost_list.push(call_cost);
   }
 
-  addCallTime(phone_number: Call, detailedCall: Call) {
+  addCallTime(same_phone_number: Call, detailedCall: Call) {
     //Seconds
-    phone_number.seconds += detailedCall.seconds;
-    if(phone_number.seconds >= 60){
-      phone_number.seconds -= 60;
-      phone_number.minutes++;
+    same_phone_number.seconds += detailedCall.seconds;
+    if(same_phone_number.seconds >= 60){
+      same_phone_number.seconds -= 60;
+      same_phone_number.minutes++;
     }
     //Minutes
-    phone_number.minutes += detailedCall.minutes;
-    if(phone_number.minutes >= 60){
-      phone_number.minutes -= 60;
-      phone_number.hours++;
+    same_phone_number.minutes += detailedCall.minutes;
+    if(same_phone_number.minutes >= 60){
+      same_phone_number.minutes -= 60;
+      same_phone_number.hours++;
     }
-    phone_number.hours += detailedCall.hours;
+    same_phone_number.hours += detailedCall.hours;
   }
 
   calculateAll() {
     for(let call of this.calls_list) {
       let detailedCall = this.getCallDetails(call);
-      console.log('########## detailedCall.hours, minutes, seconds: ' + detailedCall.hours + ':' + detailedCall.minutes + ':' + detailedCall.seconds);
       this.calculateCallCost(detailedCall);
-      let phone_number = this.call_total_time_list.find(call => call.phone_number == detailedCall.phone_number);
-      if(phone_number == undefined)
+      let same_phone_number = this.call_total_time_list.find(call => call.phone_number == detailedCall.phone_number);
+      if(same_phone_number == undefined)
         this.call_total_time_list.push(detailedCall);
-      else this.addCallTime(phone_number, detailedCall);
+      else {this.addCallTime(same_phone_number, detailedCall);}
     }
-    //calculate max
-    // this.max = new ;
+    this.max = this.call_total_time_list.reduce(function(prev, current) {
+      if(prev.hours == current.hours)
+        if(prev.minutes == current.minutes)
+          return (prev.seconds > current.seconds) ? prev : current;
+        else
+          return (prev.minutes > current.minutes) ? prev : current;
+      else
+        return (prev.hours > current.hours) ? prev : current;
+    });
+    this.calculateResult();
     this.isReady = true;
+  }
+
+  private calculateResult() {
+    let free_calls_phone = this.max.phone_number;
+    for(let call of this.call_cost_list){
+      if(call.phone_number != free_calls_phone)
+        this.result += call.cost;
+    }
   }
 }
 
@@ -92,13 +107,6 @@ export class Call {
   hours: number;
   minutes: number;
   seconds: number;
-
-  // constructor(pn: string, h: number, m: number, s: number) {
-  //   this.phone_number = pn;
-  //   this.hours = h;
-  //   this.minutes = m;
-  //   this.seconds = s;
-  // }
 }
 
 export class CallCost {
