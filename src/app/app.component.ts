@@ -15,6 +15,7 @@ export class AppComponent {
   call_total_time_list: Call[] = []; // Total time for each number
   max: Call;
   isReady: boolean = false;
+  changingData = false;
 
 
   constructor(private data: DataService) {
@@ -100,6 +101,10 @@ export class AppComponent {
         this.result += call.cost;
     }
   }
+
+  changeData() { this.changingData = true; }
+
+  changeEditMode(event: boolean) { this.changingData = event; }
 }
 
 export class Call {

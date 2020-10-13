@@ -1,12 +1,18 @@
-<mat-toolbar>
+<mat-toolbar color="primary">
   <span>{{ title }}</span>
 </mat-toolbar>
 
 <div id="block_container">
 
-  <div id="block_column">
+  <div *ngIf="!changingData" id="block_column">
     <mat-card-title>Input</mat-card-title>
     <p [innerHTML]="phone_bill"></p>
+    <div id="button-in-block">
+      <button mat-raised-button color="primary" (click)="changeData()">Change data</button>
+    </div>
+  </div>
+  <div *ngIf="changingData" id="block_column">
+    <app-change-data-form (editMode)="changeEditMode($event)"></app-change-data-form>
   </div>
 
   <div id="block_column">

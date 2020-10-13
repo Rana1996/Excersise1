@@ -1,0 +1,14 @@
+<div id="block_column">
+
+  <form class="example-form">
+    <mat-form-field class="example-full-width">
+      <input matInput [formControl]="dataForm">
+    </mat-form-field>
+  </form>
+
+  <div id="row">
+    <button mat-raised-button color="primary" id="button" (click)="change()">Continue</button>
+    <button mat-stroked-button color="primary" id="button" (click)="cancel()">Cancel</button>
+  </div>
+
+</div>

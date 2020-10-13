@@ -2,3 +2,26 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+#block_column {
+  flex-basis: 45%;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
+#block_container {
+  justify-content: space-between;
+  margin-top: 5%;
+  display: flex;
+  box-sizing: border-box;
+  margin-right: 8%;
+  margin-left: 8%;
+}
+
+#button-in-block {
+  display: flex;
+  flex-direction: row-reverse;
+  margin-right: 8%;
+}
