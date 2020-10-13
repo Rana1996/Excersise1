@@ -5,13 +5,19 @@
 <div id="block_container">
 
   <div id="block_column">
-    <mat-card-title>Call Cost</mat-card-title>
+    <mat-card-title>Input</mat-card-title>
     <p [innerHTML]="phone_bill"></p>
   </div>
 
   <div id="block_column">
     <mat-card-title>Phone Bill</mat-card-title>
-    <p [innerHTML]="phone_bill"></p>
+
+    <div *ngIf="isReady">
+      <div *ngFor="let call of call_cost_list">
+        <p>{{ call.phone_number }}: {{ call.cost }}</p>
+      </div>
+    </div>
+
   </div>
 
 </div>
